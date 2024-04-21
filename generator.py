@@ -3,9 +3,7 @@ import json
 import random
 import copy
 
-NUM_PLANS = 10
-
-
+# aaa
 class Skill(Enum):
     cardio = 0
     endurance = 1
@@ -98,37 +96,22 @@ def mutate(week, max_values, exercises):
                 week[i][j] = exercise
                 counter += 1
                 break
-    print(counter)
     return week
 
 
-if __name__ == "__main__":
-    times_available = [random.randint(3, 5) for i in range(7)]
-    max_values = [random.randint(10, 25) for i in range(5)]
-    print("max: ", max_values)
-    print("times: ", times_available)
-    plans = [{"times_available": times_available, "max_values": max_values}]
-    for i in range(NUM_PLANS):
-        workouts = generate(times_available, max_values, "exercises.json")
-        for workout in workouts:
-            print(workout)
-        print()
-        plans.append(workouts)
-    with open('plans.json', 'w', encoding='utf-8') as f:
-        json.dump(plans, f, ensure_ascii=False, indent=4)
+def evaluate(week, exercises, max_values):
+	n = len(Skill)
+	m = len(exercises)
+	p = 7
 
+	value = 0
+	for i in range(n):
+		for j in range(m):
+			for k in range(p):
+				a = 1 if exercises[j] in week[k] else 0
+				v = list(exercises[j].values())[i+1]
+				x = max_values[i]
 
-    print("====================")
-    print(plans[1])
-    print(plans[2])
-    x, y = crossover(plans[1], plans[2])
-    print(x)
-    print(y)
-
-    with open("exercises.json") as f:
-        exercises = json.load(f)
-
-    print("======================")
-    print(plans[1])
-    print(mutate(plans[1], max_values, exercises))
-    # print(json.dumps(mutate(plans[1], max_values, exercises), indent=4))
+				value += abs(a * v - x)
+	
+	return value
