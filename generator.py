@@ -3,14 +3,12 @@ import json
 import random
 import copy
 
-# aaa
 class Skill(Enum):
     cardio = 0
     endurance = 1
     strength = 2
     flexibility = 3
     agility = 4
-
 
 def generate(times_available, max_values, exercises_filename):
     with open(exercises_filename) as f:
@@ -99,7 +97,7 @@ def mutate(week, max_values, exercises):
     return week
 
 
-def evaluate(week, exercises, max_values):
+def evaluate(week, exercises, expected_values):
 	n = len(Skill)
 	m = len(exercises)
 	p = 7
@@ -110,7 +108,7 @@ def evaluate(week, exercises, max_values):
 			for k in range(p):
 				a = 1 if exercises[j] in week[k] else 0
 				v = list(exercises[j].values())[i+1]
-				x = max_values[i]
+				x = expected_values[i]
 
 				value += abs(a * v - x)
 	
