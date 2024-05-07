@@ -2,7 +2,7 @@ import random
 from generator import *
 from minimizer import Minimizer
 
-NUM_PLANS = 50000
+NUM_PLANS = 20
 
 
 if __name__ == "__main__":
@@ -32,17 +32,17 @@ if __name__ == "__main__":
 	# find the best plan
  
     # expected_values = [random.randint(0, max_values[k]) in range(5)]
-    expected_values = [0, 10, 0, 0, 0]
+    expected_values = [5, 10, 10, 15, 30]
 
     initial_population = plans[1:]
     minimizer = Minimizer(objective_func=evaluate, initial_population=initial_population, expected_values=expected_values, max_values=max_values, exercises=exercises)
 
-    minimizer.run(gen_count=1000, verbose=1, crossover_rate=0.8, mutation_rate=0.2, early_stop=20)
+    minimizer.run(gen_count=10000, verbose=2, crossover_rate=0.95, mutation_rate=0.2, early_stop=5000)
 
     best_plan, best_score = minimizer.get()
 
     print("Best score:", best_score)
-    print("Best plan:", best_plan)
+    # print("Best plan:", best_plan)
 
     with open('plans.json', 'w', encoding='utf-8') as f:
         json.dump(best_plan, f, ensure_ascii=False, indent=4)

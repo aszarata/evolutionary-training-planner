@@ -27,11 +27,6 @@ class Minimizer:
 			# evaluate individuals
 			self.__evaluations = self.__individuals_evaluation()
 
-			
-			# mutations
-			for i in range(self.__population_size):
-				if random.random() < mutation_rate:
-					self.population[i] = mutate(self.population[i], max_values=self.max_values, exercises=self.exercises)
 
 			# choose the parents in tournament
 			parents = []
@@ -51,6 +46,11 @@ class Minimizer:
 			for i in range(0, self.__population_size, 2):
 				if random.random() < crossover_rate:
 					self.population[i], self.population[i+1] = crossover(parents[i], parents[i+1])
+
+			# mutations
+			for i in range(self.__population_size):
+				if random.random() < mutation_rate:
+					self.population[i] = mutate(self.population[i], max_values=self.max_values, exercises=self.exercises)
 
 			best_idx = self.__find_best_score()
 
