@@ -68,32 +68,68 @@ def crossover(weekA, weekB):
 Function mutates at most one training at least in one day
 It takes a training plan, a list of max values and a list of exercises
 """
+# def mutate(week, max_values, exercises):
+#     week = copy.deepcopy(week)
+#     size = len(week)
+#     selector = [1] + [random.randint(0, 1) for _ in range(size - 1)]
+#     counter = 0
+
+#     for i in range(size):
+
+#         if selector[i] == 0:
+#             continue
+#         # current category values
+#         cur_values = [sum(exercise[skill.name.lower()] for exercise in week[i]) for skill in Skill]
+
+#         # random order of exercises in a day
+#         order = [i for i in range(len(week[i]))]
+#         random.shuffle(order)
+
+#         for j in order:
+#             exceeds_max = False
+#             exercise = random.choice(exercises)
+#             for k, skill in enumerate(Skill):
+#                 if cur_values[k] + exercise[skill.name] - week[i][j][skill.name] > max_values[k]:
+#                     exceeds_max = True
+#                     break
+#             if not exceeds_max:
+#                 week[i][j] = exercise
+#                 counter += 1
+#                 break
+
+#     return week
+
+
+"""
+Alternative mutation function mutating exactly one day in the whole week
+It takes a training plan, a list of max values and a list of exercises
+"""
 def mutate(week, max_values, exercises):
     week = copy.deepcopy(week)
     size = len(week)
-    selector = [1] + [random.randint(0, 1) for _ in range(size - 1)]
+    selector = random.randint(0, size - 1)
     counter = 0
-    for i in range(size):
-        if selector[i] == 0:
-            continue
-        # current category values
-        cur_values = [sum(exercise[skill.name.lower()] for exercise in week[i]) for skill in Skill]
 
-        # random order of exercises in a day
-        order = [i for i in range(len(week[i]))]
-        random.shuffle(order)
 
-        for j in order:
-            exceeds_max = False
-            exercise = random.choice(exercises)
-            for k, skill in enumerate(Skill):
-                if cur_values[k] + exercise[skill.name] - week[i][j][skill.name] > max_values[k]:
-                    exceeds_max = True
-                    break
-            if not exceeds_max:
-                week[i][j] = exercise
-                counter += 1
+    # current category values
+    cur_values = [sum(exercise[skill.name.lower()] for exercise in week[selector]) for skill in Skill]
+
+    # random order of exercises in a day
+    order = [i for i in range(len(week[selector]))]
+    random.shuffle(order)
+
+    for j in order:
+        exceeds_max = False
+        exercise = random.choice(exercises)
+        for k, skill in enumerate(Skill):
+            if cur_values[k] + exercise[skill.name] - week[selector][j][skill.name] > max_values[k]:
+                exceeds_max = True
                 break
+        if not exceeds_max:
+            week[selector][j] = exercise
+            counter += 1
+            break
+
     return week
 
 
