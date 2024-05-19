@@ -30,7 +30,7 @@ class Minimizer:
 
 		self.no_change_cnt = 0
 	
-	def run(self, gen_count, mutation_rate=0.1, crossover_rate=0.8, verbose=-1, early_stop=None):
+	def run(self, gen_count, mutation_rate=0.3, crossover_rate=0.95, verbose=-1, early_stop=None):
 		"""
         Run the minimization process.
         Args:
@@ -66,15 +66,17 @@ class Minimizer:
 				if random.random() < crossover_rate:
 					individual1, individual2 = crossover(parents[i], parents[i+1])
 					new_population += [individual1, individual2]
+				
+			# mutations
+			for i in range(len(new_population)):
+				if random.random() < mutation_rate:
+					new_population[i] = mutate(new_population[i], max_values=self.max_values, exercises=self.exercises)
 
 			# replace weakest individuals with new population
 			self.population = [self.population[i] for i in sorted(range(len(self.__evaluations)), key=lambda x: self.__evaluations[x], reverse=False)]
 			self.population = new_population + self.population[len(new_population):]
 
-			# mutations
-			for i in range(self.__population_size):
-				if random.random() < mutation_rate:
-					self.population[i] = mutate(self.population[i], max_values=self.max_values, exercises=self.exercises)
+			
 
 			best_idx = self.__find_best_score()
 

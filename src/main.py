@@ -15,7 +15,7 @@ if __name__ == "__main__":
 	# generate plans
 
     times_available = [random.randint(3, 5) for i in range(7)]
-    max_values = [random.randint(10, 25) for i in range(5)]
+    max_values = [25, 25, 25, 25, 25]
     print("max: ", max_values)
     print("times: ", times_available)
     plans = [{"times_available": times_available, "max_values": max_values}]
@@ -37,7 +37,7 @@ if __name__ == "__main__":
 	# find the best plan
  
     # expected_values = [random.randint(0, max_values[k]) in range(5)]
-    expected_values = [0, 0, 0, 0, 0]
+    expected_values = [100, 0, 0, 0, 0]
 
     initial_population = plans[1:]
     minimizer = Minimizer(objective_func=evaluate, initial_population=initial_population, expected_values=expected_values, max_values=max_values, exercises=exercises)
