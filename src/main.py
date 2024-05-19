@@ -42,7 +42,7 @@ if __name__ == "__main__":
     initial_population = plans[1:]
     minimizer = Minimizer(objective_func=evaluate, initial_population=initial_population, expected_values=expected_values, max_values=max_values, exercises=exercises)
 
-    minimizer.run(gen_count=10000, verbose=2, crossover_rate=0.95, mutation_rate=0.2, early_stop=500)
+    minimizer.run(gen_count=10000, verbose=2, crossover_rate=0.95, mutation_rate=0.3, early_stop=700)
 
     best_plan, best_score = minimizer.get()
 
