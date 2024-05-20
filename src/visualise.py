@@ -2,16 +2,14 @@ import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-# dependancy - fpdf2 library
+# dependency - fpdf2 library
 #!pip install fpdf2
+
 from fpdf import FPDF
-
-
 import json
-f = open('data/plans.json')
+
+f = open("data/plans.json")
 data = json.load(f)
-metadata = data[0]
-week = data[1]
 
 
 # path is a path to icons folder
@@ -44,4 +42,4 @@ def create_pdf(path, week, icon_size = 20):
         index += 1
     pdf.output("training_plan.pdf")
 
-create_pdf("Downloads", week)
+create_pdf("assets", data)
